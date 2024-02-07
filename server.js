@@ -29,7 +29,7 @@ ipc.serve(function () {
       text = args[0];
       child = spawn(`interpreter`, [
         "--os",
-        "-ci",
+        "--custom_instructions",
         args[1],
         "--api_key",
         args[2],
