@@ -27,7 +27,9 @@ ipc.serve(function () {
     try {
       const args = JSON.parse(data.toString());
       text = args[0];
-      child = spawn(`interpreter`, ["--os", "--api_key", args[1]], {stdio: "inherit"});
+      child = spawn(`interpreter`, ["--os", "--api_key", args[1]], {
+        stdio: "inherit",
+      });
     } catch (e) {
       console.log("caught", e);
       ipc.server.emit(
@@ -49,7 +51,7 @@ ipc.serve(function () {
       );
     });
 
-    child.stdout.on("data", async (data) => {
+    child.on("data", async (data) => {
       let dataToSend = data.toString();
 
       if (data.toString().trim() === ">") {
@@ -71,16 +73,6 @@ ipc.serve(function () {
         JSON.stringify({
           method: "stdout",
           message: dataToSend,
-        })
-      );
-    });
-
-    child.stderr.on("data", (data) => {
-      ipc.server.emit(
-        socket,
-        JSON.stringify({
-          method: "stderr",
-          message: data.toString(),
         })
       );
     });
