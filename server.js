@@ -33,6 +33,7 @@ ipc.serve(function () {
         args[1],
         "--api_key",
         args[2],
+        { stdio: "inherit" },
       ]);
     } catch (e) {
       console.log("caught", e);
