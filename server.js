@@ -63,8 +63,6 @@ ipc.serve(function () {
         } else {
           inputDone = true;
           child.stdin.write(`${text}\n`);
-
-          dataToSend += text;
         }
       }
 
