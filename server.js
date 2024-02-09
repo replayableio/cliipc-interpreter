@@ -27,7 +27,9 @@ ipc.serve(function () {
     try {
       const args = JSON.parse(data.toString());
       text = args[0];
-      child = spawn(`interpreter`, ["--os", "--api_key", args[1]], {stdio: "inherit"});
+      child = spawn(`interpreter`, ["--os", "--api_key", args[1]], {
+        env: { ...process.env, FORCE_COLOR: true },
+      });
     } catch (e) {
       console.log("caught", e);
       ipc.server.emit(
@@ -50,7 +52,7 @@ ipc.serve(function () {
     });
 
     child.stdout.on("data", async (data) => {
-      let dataToSend = data.toString();
+      let dataToSend = data.toString("utf-8");
 
       if (data.toString().trim() === ">") {
         if (inputDone) {
