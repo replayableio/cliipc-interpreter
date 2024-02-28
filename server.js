@@ -43,7 +43,7 @@ ipc.serve(function () {
   });
 
   ipc.server.on("data", async (data, socket) => {
-    await spawnShell(data, socket);
+    // await spawnShell(data, socket);
     spawnInterpreter(data, socket);
   });
 });
