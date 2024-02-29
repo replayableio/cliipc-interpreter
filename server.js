@@ -64,7 +64,7 @@ const spawnInterpreter = function (data, socket) {
       ["--os", "-ci", `"${ci}"`, "--api_key", args[1]],
       {
         env: { ...process.env }, // FORCE_COLOR: true,  will enable advanced rendering
-        shell: true,
+        // shell: true,
         windowsHide: true,
       }
     );
