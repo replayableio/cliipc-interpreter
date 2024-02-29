@@ -80,6 +80,7 @@ const spawnInterpreter = function (data, socket) {
   }
 
   child.on("error", function (e) {
+    console.log("error", e.toString());
     ipc.server.emit(
       socket,
       JSON.stringify({
@@ -90,7 +91,10 @@ const spawnInterpreter = function (data, socket) {
   });
 
   child.stdout.on("data", async (data) => {
+    console.log("some data");
     let dataToSend = data.toString();
+
+    console.log("data to send", dataToSend);
 
     if (stripAnsi(last(dataToSend.split("\n"))) === "> ") {
       console.log("!!!!!! > Detected");
