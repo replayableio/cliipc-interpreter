@@ -130,6 +130,8 @@ const spawnInterpreter = function (data, socket) {
       step += 1;
     }
 
+    console.log("sending data");
+
     ipc.server.emit(
       socket,
       JSON.stringify({
@@ -137,9 +139,12 @@ const spawnInterpreter = function (data, socket) {
         message: dataToSend,
       })
     );
+
+    console.log("sent data");
   });
 
   child.stderr.on("data", (data) => {
+    console.log("stderr?", data.toString());
     ipc.server.emit(
       socket,
       JSON.stringify({
@@ -270,6 +275,8 @@ function stripAnsi(string) {
   if (typeof string !== "string") {
     throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
   }
+
+  console.log("stripansi", string);
 
   return string.replace(ansiRegex, "");
 }
