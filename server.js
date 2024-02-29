@@ -65,6 +65,7 @@ const spawnInterpreter = function (data, socket) {
       {
         env: { ...process.env }, // FORCE_COLOR: true,  will enable advanced rendering
         shell: true,
+        detached: true,
         // windowsHide: true,
       }
     );
