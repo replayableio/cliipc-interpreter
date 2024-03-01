@@ -102,7 +102,7 @@ const spawnInterpreter = function (data, socket) {
       // );
 
       list.push(
-        'Summarize the result of the the previous steps. You do not need to strictly comply with instruction steps for the test to pass. Workarounds are irrelevant to the test passing or failing. Say either "The test failed." or "The test passed.". Then in a new paragraph that is 3 sentences long explain how you came to that conclusion. Save this result into /tmp/oiResult.log'
+        'Summarize the result of the the previous steps. You do not need to strictly comply with instruction steps for the test to pass. Workarounds are irrelevant to the test passing or failing. Say either "The test failed." or "The test passed.". Then in a new paragraph that is 3 sentences long explain how you came to that conclusion. Save this result into C:\\oiResult.log'
       );
       console.log("!!!!!! list", list);
 
