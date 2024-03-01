@@ -57,8 +57,6 @@ const spawnInterpreter = function (data, socket) {
     const args = JSON.parse(data.toString());
     text = args[0];
 
-    console.log("args1", args[1]);
-
     child = spawn(
       `interpreter`,
       ["--os", "-ci", `"${ci}"`, "--api_key", args[1]],
@@ -69,7 +67,6 @@ const spawnInterpreter = function (data, socket) {
       }
     );
   } catch (e) {
-    console.log("caught", e);
     ipc.server.emit(
       socket,
       JSON.stringify({
@@ -80,7 +77,6 @@ const spawnInterpreter = function (data, socket) {
   }
 
   child.on("error", function (e) {
-    console.log("error", e.toString());
     ipc.server.emit(
       socket,
       JSON.stringify({
@@ -91,17 +87,13 @@ const spawnInterpreter = function (data, socket) {
   });
 
   child.stdout.on("data", async (data) => {
-    console.log("some data");
     let dataToSend = data.toString();
-
-    console.log("data to send", dataToSend);
 
     if (stripAnsi(last(dataToSend.split("\n"))) === "> ") {
       console.log("!!!!!! > Detected");
 
       let data = text.split(" ");
       console.log("text is", text);
-      console.log(text);
 
       list = markdownToListArray(text);
 
@@ -130,8 +122,6 @@ const spawnInterpreter = function (data, socket) {
       step += 1;
     }
 
-    console.log("sending data");
-
     ipc.server.emit(
       socket,
       JSON.stringify({
@@ -139,12 +129,9 @@ const spawnInterpreter = function (data, socket) {
         message: dataToSend,
       })
     );
-
-    console.log("sent data");
   });
 
   child.stderr.on("data", (data) => {
-    console.log("stderr?", data.toString());
     ipc.server.emit(
       socket,
       JSON.stringify({
@@ -238,8 +225,6 @@ const spawnShell = function (data, socket) {
     child.stdout.on("data", async (data) => {
       let dataToSend = data.toString();
 
-      console.log("dataToSend", dataToSend);
-
       ipc.server.emit(
         socket,
         JSON.stringify({
@@ -275,8 +260,6 @@ function stripAnsi(string) {
   if (typeof string !== "string") {
     throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
   }
-
-  console.log("stripansi", string);
 
   return string.replace(ansiRegex, "");
 }
