@@ -114,7 +114,7 @@ const spawnInterpreter = function (data, socket) {
       } else {
         console.log("RUNNING COMMAND ", i);
         let command = list[i];
-        child.stdin.write(`${command}\n`);
+        child.stdin.write(`${command}\r\n`);
         dataToSend += command;
         i++;
       }
