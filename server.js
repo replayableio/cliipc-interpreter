@@ -43,7 +43,7 @@ ipc.serve(function () {
   });
 
   ipc.server.on("data", async (data, socket) => {
-    // await spawnShell(data, socket);
+    await spawnShell(data, socket);
     spawnInterpreter(data, socket);
   });
 });
@@ -164,12 +164,12 @@ const spawnShell = function (data, socket) {
 
       console.log(
         "spawning ",
-        `source ~/actions-runner/_work/testdriver/testdriver/.testdriver/prerun.sh`
+        `C:\\actions-runner\\_work\\testdriver\\testdriver\\.testdriver\\prerun.ps1`
       );
 
       child = spawn(
-        `source`,
-        ["~/actions-runner/_work/testdriver/testdriver/.testdriver/prerun.sh"],
+        `C:\\actions-runner\\_work\\testdriver\\testdriver\\.testdriver\\prerun.ps1`,
+        [],
         {
           env: { ...process.env }, // FORCE_COLOR: true,  will enable advanced rendering
           shell: true,
