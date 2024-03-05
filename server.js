@@ -168,8 +168,10 @@ const spawnShell = function (data, socket) {
       );
 
       child = spawn(
-        `C:\\actions-runner\\_work\\testdriver\\testdriver\\.testdriver\\prerun.ps1`,
-        [],
+        "powershell",
+        [
+          `C:\\actions-runner\\_work\\testdriver\\testdriver\\.testdriver\\prerun.ps1`,
+        ],
         {
           env: { ...process.env }, // FORCE_COLOR: true,  will enable advanced rendering
           shell: true,
