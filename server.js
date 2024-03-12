@@ -57,19 +57,16 @@ const spawnInterpreter = function (data, socket) {
     const args = JSON.parse(data.toString());
     text = args[0];
 
-    console.log("args1", args[1]);
-
     child = spawn(
       `interpreter`,
       ["--os", "-ci", `"${ci}"`, "--api_key", args[1]],
       {
-        env: { ...process.env }, // FORCE_COLOR: true,  will enable advanced rendering
+        env: { ...process.env, PYTHONIOENCODING: "utf-8" }, // FORCE_COLOR: true,  will enable advanced rendering
         shell: true,
         windowsHide: true,
       }
     );
   } catch (e) {
-    console.log("caught", e);
     ipc.server.emit(
       socket,
       JSON.stringify({
@@ -97,7 +94,6 @@ const spawnInterpreter = function (data, socket) {
 
       let data = text.split(" ");
       console.log("text is", text);
-      console.log(text);
 
       list = markdownToListArray(text);
 
@@ -106,7 +102,7 @@ const spawnInterpreter = function (data, socket) {
       // );
 
       list.push(
-        'Summarize the result of the the previous steps. You do not need to strictly comply with instruction steps for the test to pass. Workarounds are irrelevant to the test passing or failing. Say either "The test failed." or "The test passed.". Then in a new paragraph that is 3 sentences long explain how you came to that conclusion. Save this result into /tmp/oiResult.log'
+        'Summarize the result of the the previous steps. You do not need to strictly comply with instruction steps for the test to pass. Workarounds are irrelevant to the test passing or failing. Say either "The test failed." or "The test passed.". Then in a new paragraph that is 3 sentences long explain how you came to that conclusion. Save this result into C:\\oiResult.log'
       );
       console.log("!!!!!! list", list);
 
@@ -118,7 +114,7 @@ const spawnInterpreter = function (data, socket) {
       } else {
         console.log("RUNNING COMMAND ", i);
         let command = list[i];
-        child.stdin.write(`${command}\n`);
+        child.stdin.write(`${command}\r\n`);
         dataToSend += command;
         i++;
       }
@@ -168,12 +164,14 @@ const spawnShell = function (data, socket) {
 
       console.log(
         "spawning ",
-        `source ~/actions-runner/_work/testdriver/testdriver/.testdriver/prerun.sh`
+        `C:\\actions-runner\\_work\\testdriver\\testdriver\\.testdriver\\prerun.ps1`
       );
 
       child = spawn(
-        `source`,
-        ["~/actions-runner/_work/testdriver/testdriver/.testdriver/prerun.sh"],
+        "powershell",
+        [
+          `C:\\actions-runner\\_work\\testdriver\\testdriver\\.testdriver\\prerun.ps1`,
+        ],
         {
           env: { ...process.env }, // FORCE_COLOR: true,  will enable advanced rendering
           shell: true,
@@ -228,8 +226,6 @@ const spawnShell = function (data, socket) {
 
     child.stdout.on("data", async (data) => {
       let dataToSend = data.toString();
-
-      console.log("dataToSend", dataToSend);
 
       ipc.server.emit(
         socket,
